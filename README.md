@@ -19,3 +19,127 @@ O backend desta aplicação foi desenvolvido utilizando as seguintes tecnologias
 - **Hibernate Validator**
 - **Spring Security**
 
+## Endpoints da API
+
+### 1. Resgister
+#### Requisição
+```http
+POST /register
+{
+  "fullName": "Nome completo",
+  "document": "123.456.789-01",
+  "email": "email@email.com",
+  "password": "123",
+  "userType": "COMMON"
+}
+```
+- "document" : CPF ou CNPJ
+- "userType" : "COMMON" ou "MERCHANT"
+### 2. Login
+#### Requisição
+```http
+POST /login
+{
+  "email": "email@email.com",
+  "password": "123",
+}
+```
+#### Retorno:
+```http
+{
+  "token": "",
+  "fullName": "Nome completo",
+  "email": "email@email.com",
+  "balance": 1000.00
+}
+```
+
+### 3.Transação
+#### Cabeçalho
+```http
+Authorization: Bearer <token>
+```
+#### Requisição
+```http
+POST /transfer
+{
+  "payeeDocumentOrEmail": "email@email.com",
+  "value": 100
+}
+```
+#### Retorno:
+```http
+{
+  "transactionResponseDtoDto": {
+    "id": 1,
+    "value": 100,
+    "payer": {
+      "id": 1,
+      "fullName": "Nome completo",
+      "email": "email@email.com"
+    },
+    "payee": {
+      "id": 2,
+      "fullName": "Nome completo",
+      "email": "email@email.com"
+    },
+    "timestamp": "2024-08-26T16:39:25.250033382"
+  },
+  "updatedBalance": 900.00
+}
+```
+
+### 4.Transações
+#### Cabeçalho
+```http
+Authorization: Bearer <token>
+```
+
+#### Requisição
+```http
+POST /transfers
+POST /transfers/payer
+POST /transfers/payee
+```
+ou (startDate e endDate são opcionais)
+```http
+POST /transfers?startDate=2024-08-01&endDate=2024-08-25
+POST /transfers/payer?startDate=2024-08-01&endDate=2024-08-25
+POST /transfers/payee?startDate=2024-08-01&endDate=2024-08-25
+```
+#### Retorno:
+```http
+[
+  {
+    "id": 1,
+    "value": 100.00,
+    "payer": {
+      "id": 1,
+      "fullName": "Nome completo",
+      "email": "email@email.com"
+    },
+    "payee": {
+      "id": 2,
+      "fullName": "Nome completo",
+      "email": "email@email.com"
+    },
+    "timestamp": "2024-08-26T02:15:43.9992"
+  },
+  {
+    "id": 2,
+    "value": 100.00,
+    "payer": {
+      "id": 1,
+      "fullName": "Nome completo",
+      "email": "email@email.com"
+    },
+    "payee": {
+      "id": 2,
+      "fullName": "Nome completo",
+      "email": "email@email.com"
+    },
+    "timestamp": "2024-08-26T02:16:01.656336"
+  }
+]
+```
+
