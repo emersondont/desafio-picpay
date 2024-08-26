@@ -97,15 +97,15 @@ Authorization: Bearer <token>
 
 #### Requisição
 ```http
-POST /transfers
-POST /transfers/payer
-POST /transfers/payee
+GET /transfers
+GET /transfers/payer
+GET /transfers/payee
 ```
 ou (startDate e endDate são opcionais)
 ```http
-POST /transfers?startDate=2024-08-01&endDate=2024-08-25
-POST /transfers/payer?startDate=2024-08-01&endDate=2024-08-25
-POST /transfers/payee?startDate=2024-08-01&endDate=2024-08-25
+GET /transfers?startDate=2024-08-01&endDate=2024-08-25
+GET /transfers/payer?startDate=2024-08-01&endDate=2024-08-25
+GET /transfers/payee?startDate=2024-08-01&endDate=2024-08-25
 ```
 #### Retorno:
 ```http
