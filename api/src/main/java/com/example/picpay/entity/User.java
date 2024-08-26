@@ -43,10 +43,7 @@ public class User  implements UserDetails {
         this.userType = userType;
     }
 
-//    public Long getId() {
-//        return id;
-//    }
-//
+    //
 //    public void setId(Long id) {
 //        this.id = id;
 //    }
@@ -117,9 +114,9 @@ public class User  implements UserDetails {
 //        this.password = password;
 //    }
 //
-//    public BigDecimal getBalance() {
-//        return balance;
-//    }
+    public BigDecimal getBalance() {
+        return balance;
+    }
 //
 //    public void setBalance(BigDecimal balance) {
 //        this.balance = balance;

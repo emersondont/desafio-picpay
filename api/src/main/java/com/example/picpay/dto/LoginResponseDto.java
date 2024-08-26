@@ -1,4 +1,6 @@
 package com.example.picpay.dto;
 
-public record LoginResponseDto(String token) {
+import java.math.BigDecimal;
+
+public record LoginResponseDto(String token, String fullName, String email, BigDecimal balance) {
 }

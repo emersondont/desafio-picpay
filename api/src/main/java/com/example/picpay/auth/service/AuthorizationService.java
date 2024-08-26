@@ -37,7 +37,8 @@ public class AuthorizationService implements UserDetailsService {
         var usernamePassword = new UsernamePasswordAuthenticationToken(authetinticationDto.email(), authetinticationDto.password());
         var auth = authenticationManager.authenticate(usernamePassword);
         var token = tokenService.generateToken((User) auth.getPrincipal());
-        return ResponseEntity.ok(new LoginResponseDto(token));
+        var user = userRepository.findByEmail(authetinticationDto.email());
+        return ResponseEntity.ok(new LoginResponseDto(token, user.getFullName(), user.getEmail(), user.getBalance()));
     }
 
     public ResponseEntity<Object> register(@RequestBody RegisterDto registerDto) {
