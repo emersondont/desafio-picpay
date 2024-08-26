@@ -20,13 +20,13 @@ import java.util.concurrent.CompletableFuture;
 @Service
 public class TransactionService {
     private final TransactionRepository transactionRepository;
-    private final AuthorizationService authorizationService;
+    private final AuthorizationClientService authorizationClientService;
     private final NotificationService notificationService;
     private final UserRepository userRepository;
 
-    public TransactionService(TransactionRepository transactionRepository, AuthorizationService authorizationService, NotificationService notificationService, UserRepository userRepository) {
+    public TransactionService(TransactionRepository transactionRepository, AuthorizationClientService authorizationClientService, NotificationService notificationService, UserRepository userRepository) {
         this.transactionRepository = transactionRepository;
-        this.authorizationService = authorizationService;
+        this.authorizationClientService = authorizationClientService;
         this.notificationService = notificationService;
         this.userRepository = userRepository;
     }
@@ -82,7 +82,7 @@ public class TransactionService {
             throw new InsufficientBalanceException();
         }
 
-        if(!authorizationService.isAuthorized(transactionDto)) {
+        if(!authorizationClientService.isAuthorized(transactionDto)) {
             throw new TransactionNotAuthorizedException();
         }
     }

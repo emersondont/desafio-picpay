@@ -17,4 +17,5 @@ O backend desta aplicação foi desenvolvido utilizando as seguintes tecnologias
 - **Spring Cloud OpenFeign**
 - **ControllerAdvice & Problem Details**
 - **Hibernate Validator**
+- **Spring Security**
 
