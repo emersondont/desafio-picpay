@@ -22,8 +22,6 @@ import java.util.stream.Collectors;
 @Service
 public class TransactionService {
     private final TransactionRepository transactionRepository;
-//    private final AuthorizationClientService authorizationClientService;
-//    private final NotificationService notificationService;
     private final UserRepository userRepository;
 
     public TransactionService(TransactionRepository transactionRepository, UserRepository userRepository) {
@@ -55,29 +53,23 @@ public class TransactionService {
         userRepository.save(payee);
         var transactionResult = transactionRepository.save(transaction);
 
-//        CompletableFuture.runAsync(() -> notificationService.sendNotification(transactionResult));
-
         var payerDto = new UserResponseDto(
-                payer.getId(),
                 payer.getFullName(),
                 payer.getEmail()
         );
 
         var payeeDto = new UserResponseDto(
-                payee.getId(),
                 payee.getFullName(),
                 payee.getEmail()
         );
 
-        var transactionResponse = new TransactionResponseDto(
-                transactionResult.getId(),
+        return new TransactionWithUpdatedBalanceResponseDto(transactionResult.getId(),
                 transactionResult.getValue(),
                 payerDto,
                 payeeDto,
-                transactionResult.getTimestamp()
+                transactionResult.getTimestamp(),
+                payer.getBalance()
         );
-
-        return new TransactionWithUpdatedBalanceResponseDto(transactionResponse, payer.getBalance());
    }
 
     public List<TransactionResponseDto> getAllTransfers(UserDetails user, LocalDate startDate, LocalDate endDate) {
@@ -87,13 +79,11 @@ public class TransactionService {
 
        List<TransactionResponseDto> transactionsDto = listTransaction.stream().map(transaction -> {
            var payerDto = new UserResponseDto(
-                   transaction.getPayer().getId(),
                    transaction.getPayer().getFullName(),
                    transaction.getPayer().getEmail()
            );
 
            var payeeDto = new UserResponseDto(
-                   transaction.getPayee().getId(),
                    transaction.getPayee().getFullName(),
                    transaction.getPayee().getEmail()
            );
@@ -117,13 +107,11 @@ public class TransactionService {
 
         return listTransaction.stream().map(transaction -> {
             var payerDto = new UserResponseDto(
-                    transaction.getPayer().getId(),
                     transaction.getPayer().getFullName(),
                     transaction.getPayer().getEmail()
             );
 
             var payeeDto = new UserResponseDto(
-                    transaction.getPayee().getId(),
                     transaction.getPayee().getFullName(),
                     transaction.getPayee().getEmail()
             );
@@ -145,13 +133,11 @@ public class TransactionService {
 
         return listTransaction.stream().map(transaction -> {
             var payerDto = new UserResponseDto(
-                    transaction.getPayer().getId(),
                     transaction.getPayer().getFullName(),
                     transaction.getPayer().getEmail()
             );
 
             var payeeDto = new UserResponseDto(
-                    transaction.getPayee().getId(),
                     transaction.getPayee().getFullName(),
                     transaction.getPayee().getEmail()
             );
