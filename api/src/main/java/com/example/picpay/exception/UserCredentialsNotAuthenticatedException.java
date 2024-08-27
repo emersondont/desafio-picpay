@@ -3,13 +3,13 @@ package com.example.picpay.exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 
-public class ExpiredTokenException extends PicPayException{
-
+public class UserCredentialsNotAuthenticatedException extends PicPayException{
     @Override
     public ProblemDetail toProblemDetail() {
         var pd = ProblemDetail.forStatus(HttpStatus.UNAUTHORIZED);
-        pd.setTitle("Expired token");
-        pd.setDetail("The token has expired. Please request a new token and try again.");
+        pd.setTitle("Incorrect Email or Password");
+        pd.setDetail("The email or password provided is incorrect. Please check your credentials and try again.");
+
         return pd;
     }
 }
