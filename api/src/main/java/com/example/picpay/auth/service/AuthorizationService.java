@@ -4,6 +4,7 @@ import com.example.picpay.dto.AuthetinticationDto;
 import com.example.picpay.dto.LoginResponseDto;
 import com.example.picpay.dto.RegisterDto;
 import com.example.picpay.entity.User;
+import com.example.picpay.exception.UserAlreadyExistsException;
 import com.example.picpay.exception.UserCredentialsNotAuthenticatedException;
 import com.example.picpay.exception.UserNotFoundException;
 import com.example.picpay.repository.UserRepository;
@@ -56,7 +57,9 @@ public class AuthorizationService implements UserDetailsService {
     }
 
     public ResponseEntity<Object> register(@RequestBody RegisterDto registerDto) {
-        if (this.userRepository.findByDocumentOrEmail(registerDto.document(),registerDto.email()) != null ) return ResponseEntity.badRequest().build();
+        if (this.userRepository.findByDocumentOrEmail(registerDto.document(),registerDto.email()) != null ) {
+            throw new UserAlreadyExistsException();
+        }
         String encryptedPassword = new BCryptPasswordEncoder().encode(registerDto.password());
 
         User newUser = registerDto.toUser(encryptedPassword);
