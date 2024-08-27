@@ -21,7 +21,7 @@ O backend desta aplicação foi desenvolvido utilizando as seguintes tecnologias
 
 ## Endpoints da API
 
-### 1. Resgister
+### 1. Register
 #### Requisição
 ```http
 POST /register
@@ -103,6 +103,10 @@ GET /transfers?startDate=2024-08-01&endDate=2024-08-25
 GET /transfers/payer?startDate=2024-08-01&endDate=2024-08-25
 GET /transfers/payee?startDate=2024-08-01&endDate=2024-08-25
 ```
+- /transfers : retorna todas as transações do usuário.
+- /transfers/payer : retorna as transações que o usuário é o pagante.
+- /transfers/payee : retorna as transações que o usuário é o recebedor.
+
 #### Retorno:
 ```http
 [
