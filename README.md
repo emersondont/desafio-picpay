@@ -70,21 +70,17 @@ POST /transfer
 #### Retorno:
 ```http
 {
-  "transactionResponseDtoDto": {
-    "id": 1,
-    "value": 100,
-    "payer": {
-      "id": 1,
-      "fullName": "Nome completo",
-      "email": "email@email.com"
-    },
-    "payee": {
-      "id": 2,
-      "fullName": "Nome completo",
-      "email": "email@email.com"
-    },
-    "timestamp": "2024-08-26T16:39:25.250033382"
+  "id": 1,
+  "value": 100,
+  "payer": {
+    "fullName": "Nome completo",
+    "email": "email@email.com"
   },
+  "payee": {
+    "fullName": "Nome completo",
+    "email": "email@email.com"
+  },
+  "timestamp": "2024-08-26T16:39:25.250033382"
   "updatedBalance": 900.00
 }
 ```
@@ -114,12 +110,10 @@ GET /transfers/payee?startDate=2024-08-01&endDate=2024-08-25
     "id": 1,
     "value": 100.00,
     "payer": {
-      "id": 1,
       "fullName": "Nome completo",
       "email": "email@email.com"
     },
     "payee": {
-      "id": 2,
       "fullName": "Nome completo",
       "email": "email@email.com"
     },
@@ -129,12 +123,10 @@ GET /transfers/payee?startDate=2024-08-01&endDate=2024-08-25
     "id": 2,
     "value": 100.00,
     "payer": {
-      "id": 1,
       "fullName": "Nome completo",
       "email": "email@email.com"
     },
     "payee": {
-      "id": 2,
       "fullName": "Nome completo",
       "email": "email@email.com"
     },
