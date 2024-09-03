@@ -8,7 +8,7 @@ public class UserCredentialsNotAuthenticatedException extends PicPayException{
     public ProblemDetail toProblemDetail() {
         var pd = ProblemDetail.forStatus(HttpStatus.UNAUTHORIZED);
         pd.setTitle("Incorrect Email or Password");
-        pd.setDetail("The email or password provided is incorrect. Please check your credentials and try again.");
+        pd.setDetail("Email ou Senha invalidos");
 
         return pd;
     }
