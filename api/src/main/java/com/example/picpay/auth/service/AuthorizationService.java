@@ -53,7 +53,7 @@ public class AuthorizationService implements UserDetailsService {
         var auth = authenticationManager.authenticate(usernamePassword);
         var token = tokenService.generateToken((User) auth.getPrincipal());
 
-        return ResponseEntity.ok(new LoginResponseDto(token, user.getFullName(), user.getEmail(), user.getBalance()));
+        return ResponseEntity.ok(new LoginResponseDto(token));
     }
 
     public ResponseEntity<Object> register(@RequestBody RegisterDto registerDto) {
