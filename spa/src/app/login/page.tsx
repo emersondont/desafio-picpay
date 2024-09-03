@@ -1,0 +1,70 @@
+'use client'
+import AuthLayout from "@/components/authLayout";
+import Button from "@/components/button";
+import Input from "@/components/input";
+import { loginSchema, LoginSchema } from "@/types";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
+import { login } from "../actions";
+import ErrorMessage from "@/components/errorMessage";
+import { useRouter } from "next/navigation";
+
+export default function Login() {
+  const { register, control, handleSubmit, setError, formState: { errors } } = useForm<LoginSchema>({
+    resolver: zodResolver(loginSchema)
+  })
+  const router = useRouter()
+
+  const handleLogin: SubmitHandler<LoginSchema> = async (data) => {
+    try {
+      const res = await login(data)
+      if (res.error) {
+        const error = await res.error
+        setError("root", { message: error.detail })
+        setError("email", { message: error.detail })
+        setError("password", { message: error.detail })
+      }
+      else {
+        window.localStorage.setItem('token', res.token)
+        router.push('/')
+      }
+
+    } catch (error) {
+      console.log("error:", error)
+    }
+  };
+
+  const onError: SubmitErrorHandler<LoginSchema> = (data) => {
+    console.log("erro:", data)
+  }
+
+  return (
+    <AuthLayout title="Bem vindo!">
+      {errors.root && <ErrorMessage>{errors.root.message}</ErrorMessage>}
+      <form onSubmit={handleSubmit(handleLogin, onError)}
+        className="flex flex-col gap-3 w-full"
+      >
+        <Input
+          label="Email"
+          type="text"
+          register={register("email")}
+          control={control}
+        />
+        <Input
+          label="Senha"
+          type="password"
+          register={register("password")}
+          control={control}
+        />
+        <Button type="submit">
+          Entrar
+        </Button>
+      </form>
+      <p>
+        Não tem uma conta? <a className="text-primary hover:text-primaryHover cursor-pointer">Registre-se</a>
+      </p>
+    </AuthLayout>
+  );
+}
+
+
