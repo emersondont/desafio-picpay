@@ -48,7 +48,6 @@ export default function Input(props: InputProps) {
         useEffect(() => {
           if (error) { setState('error'); }
         }, [error]);
-        console.log(value)
         return (
           <div className={`${bgMap[state]} bg-bg2 border-b ${borderMap[state]} px-3 pt-5 pb-1 relative flex rounded-t-md w-full justify-between items-center`}>
             <input

@@ -7,28 +7,19 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 import { login } from "../actions";
 import ErrorMessage from "@/components/errorMessage";
-import { useRouter } from "next/navigation";
 
 export default function Login() {
   const { register, control, handleSubmit, setError, formState: { errors } } = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema)
   })
-  const router = useRouter()
 
   const handleLogin: SubmitHandler<LoginSchema> = async (data) => {
     try {
       const res = await login(data)
-      if (res.error) {
-        const error = await res.error
-        setError("root", { message: error.detail })
-        setError("email", { message: error.detail })
-        setError("password", { message: error.detail })
-      }
-      else {
-        window.localStorage.setItem('token', res.token)
-        router.push('/')
-      }
-
+      const error = await res.error
+      setError("root", { message: error.detail })
+      setError("email", { type: "required" })
+      setError("password", { type: "required" })
     } catch (error) {
       console.log("error:", error)
     }

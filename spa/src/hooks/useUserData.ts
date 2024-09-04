@@ -6,11 +6,7 @@ export function useUserData() {
 
   const userDataQuery = useQuery({
     queryKey: ['userData'],
-    queryFn: async () => {
-      const token = window.localStorage.getItem('token')
-      if (!token) { return }
-      return await getUserData(token)
-    },
+    queryFn: async () => { return await getUserData() },
   })
 
   const setQueryUserData = (userData: UserDataResponseDto) => {

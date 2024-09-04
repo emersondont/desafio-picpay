@@ -1,5 +1,8 @@
 "use server"
+import { getAccessToken, setAccessToken } from "@/lib/cookies";
 import { LoginSchema } from "@/types";
+import { NextResponse } from 'next/server'
+import { redirect } from "next/navigation";
 
 const handleErrors = (response: Response) => {
   if (!response.ok) {
@@ -17,7 +20,7 @@ const fetchData = async (url: string, options?: RequestInit) => {
   }
 };
 
-export const login = async (data: LoginSchema) => {
+export const login = async (data: LoginSchema): Promise<{ error: Promise<{ detail: string }> }> => {
   const url = 'auth/login';
 
   const options = {
@@ -28,16 +31,34 @@ export const login = async (data: LoginSchema) => {
     body: JSON.stringify(data)
   }
 
-  return fetchData(url, options);
+  const res = await fetchData(url, options);
+  const token = await res.token;
+
+  if (token) {
+    setAccessToken(token);
+  }
+
+  if (!res.error) {
+    redirect('/');
+  }
+
+  return res;
 };
 
-export const getUserData = async (token: string) => {
+export const getUserData = async () => {
   const url = 'user';
+  const token = getAccessToken();
+  if (!token) {
+    return;
+  }
+  
   const options = {
+    method: 'GET',
     headers: {
-      Authorization: `Bearer ${token}`
+      Authorization: `Bearer ${token.value}`
     }
   }
+
   const response = fetchData(url, options);
   return response;
 }
