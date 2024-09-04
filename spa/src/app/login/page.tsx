@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 import { login } from "../actions";
 import ErrorMessage from "@/components/errorMessage";
+import Link from "next/link";
 
 export default function Login() {
   const { register, control, handleSubmit, setError, formState: { errors } } = useForm<LoginSchema>({
@@ -37,7 +38,7 @@ export default function Login() {
       >
         <Input
           label="Email"
-          type="text"
+          type="email"
           register={register("email")}
           control={control}
         />
@@ -52,7 +53,9 @@ export default function Login() {
         </Button>
       </form>
       <p>
-        Não tem uma conta? <a className="text-primary hover:text-primaryHover cursor-pointer">Registre-se</a>
+        Não tem uma conta? <Link href={'/register'} className="text-primary hover:text-primaryHover cursor-pointer">
+          Registre-se
+        </Link>
       </p>
     </AuthLayout>
   );

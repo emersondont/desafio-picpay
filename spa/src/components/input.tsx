@@ -7,15 +7,15 @@ type InputProps = {
   label: string;
   control: Control<any>
   register: UseFormRegisterReturn;
-  type: "text" | "password";
+  type: "text" | "email" | "password" | "radio";
+  options?: { value: string, label: string }[];
 }
 
 type InputState = 'default' | 'success' | 'error'
 
-
 export default function Input(props: InputProps) {
   const [state, setState] = useState<InputState>('default')
-  const [type, setType] = useState<'text' | 'password'>(props.type)
+  const [type, setType] = useState<"text" | "email" | "password" | "radio">(props.type)
 
   const bgMap = {
     default: 'bg-bg2',
@@ -30,7 +30,7 @@ export default function Input(props: InputProps) {
   }
 
   const labelMap = {
-    inputEmpty: 'text-lg top-1/2 -translate-y-1/2 peer-focus:text-sm peer-focus:font-bold peer-focus:top-0 peer-focus:translate-y-0',
+    inputEmpty: 'text-base top-1/2 -translate-y-1/2 peer-focus:text-sm peer-focus:font-bold peer-focus:top-0 peer-focus:translate-y-0',
     inputFilled: 'text-sm font-bold top-0 translate-y-0'
   }
 
@@ -50,19 +50,36 @@ export default function Input(props: InputProps) {
         }, [error]);
         return (
           <div className={`${bgMap[state]} bg-bg2 border-b ${borderMap[state]} px-3 pt-5 pb-1 relative flex rounded-t-md w-full justify-between items-center`}>
-            <input
-              className="border-none outline-none bg-transparent peer z-10 w-full caret-primary"
-              {...props.register}
-              type={type}
-              onFocus={() => setState('success')}
-              onBlur={() => handleBlur(value)}
-            />
+            {
+              props.type === 'radio' ? (
+                <div className="flex gap-2">
+                  {
+                    props.options?.map(option => (
+                      <div key={option.value} className="flex items-center gap-1">
+                        <input type="radio" id={option.value} {...props.register} value={option.value} />
+                        <label htmlFor={option.value}>{option.label}</label>
+                      </div>
+                    ))
+                  }
+                </div>
+
+              ) :
+                <input
+                  className="border-none outline-none bg-transparent peer z-10 w-full caret-primary"
+                  {...props.register}
+                  type={type}
+                  onFocus={() => setState('success')}
+                  onBlur={() => handleBlur(value)}
+                />
+            }
+
             <label
               htmlFor="text"
               className={`absolute ${value === '' || value === undefined ? labelMap['inputEmpty'] : labelMap['inputFilled']}  transition-all duration-200 ease-out`}
             >
               {props.label}
             </label>
+
             {props.type === 'password' && (
               <button
                 type="button"

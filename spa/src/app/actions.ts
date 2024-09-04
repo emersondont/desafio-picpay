@@ -1,13 +1,13 @@
 "use server"
 import { getAccessToken, setAccessToken } from "@/lib/cookies";
-import { LoginSchema } from "@/types";
-import { NextResponse } from 'next/server'
+import { LoginSchema, RegisterSchema } from "@/types";
 import { redirect } from "next/navigation";
 
 const handleErrors = (response: Response) => {
   if (!response.ok) {
     return { error: response.json() }
   }
+  
   return response.json();
 };
 
@@ -37,6 +37,26 @@ export const login = async (data: LoginSchema): Promise<{ error: Promise<{ detai
   if (token) {
     setAccessToken(token);
   }
+
+  if (!res.error) {
+    redirect('/');
+  }
+
+  return res;
+};
+
+export const registerUser = async (data: RegisterSchema): Promise<{ error: Promise<{ detail: string }> }> => {
+  const url = 'auth/register';
+
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data)
+  }
+  
+  const res = await fetchData(url, options);
 
   if (!res.error) {
     redirect('/');
