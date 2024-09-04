@@ -31,7 +31,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.POST, "/transfer").hasRole("COMMON")
                         .requestMatchers(HttpMethod.GET, "/transfers").hasRole("MERCHANT")
                         .requestMatchers(HttpMethod.GET, "/transfers/payee").hasRole("MERCHANT")
-                        .requestMatchers(HttpMethod.GET                                                                                                                                                                                                                                                                                                                                                                              , "/transfers/payer").hasRole("COMMON")
+                        .requestMatchers(HttpMethod.GET, "/transfers/payer").hasRole("COMMON")
                         .anyRequest().permitAll()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
