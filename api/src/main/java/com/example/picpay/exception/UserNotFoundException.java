@@ -14,7 +14,7 @@ public class UserNotFoundException extends PicPayException{
     public ProblemDetail toProblemDetail() {
         var pd = ProblemDetail.forStatus(HttpStatus.UNPROCESSABLE_ENTITY);
         pd.setTitle("User not found");
-        pd.setDetail("There is no user with CPF/CNPJ or Email: " + documentOrEmail);
+        pd.setDetail("Não existe um usuário com este email.");
 
         return pd;
     }

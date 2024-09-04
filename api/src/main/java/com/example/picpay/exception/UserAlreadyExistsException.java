@@ -9,7 +9,7 @@ public class UserAlreadyExistsException extends PicPayException{
         var pd = ProblemDetail.forStatus(HttpStatus.CONFLICT);
 
         pd.setTitle("User already exists");
-        pd.setDetail("User with this credentials already exists.");
+        pd.setDetail("Usuário com essas credenciais já existe.");
 
         return pd;
     }
