@@ -3,6 +3,8 @@ package com.example.picpay.security;
 import java.io.IOException;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.exceptions.TokenExpiredException;
+import com.example.picpay.exception.ExpiredTokenException;
 import com.example.picpay.repository.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -39,7 +41,7 @@ public class SecurityFilter extends OncePerRequestFilter {
                 }
             } catch (JWTVerificationException exception) {
                 // Token expirado
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 response.getWriter().write("Expired token");
                 return;
             }
