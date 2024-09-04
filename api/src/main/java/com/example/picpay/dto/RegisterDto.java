@@ -9,7 +9,7 @@ public record RegisterDto(@NotBlank String fullName,
                           @NotBlank String document,
                           @NotBlank String email,
                           @NotBlank String password,
-                          @NotBlank UserType userType) {
+                          @NotNull UserType userType) {
     public User toUser(String encryptedPassword ) {
         return new User(
                 fullName,

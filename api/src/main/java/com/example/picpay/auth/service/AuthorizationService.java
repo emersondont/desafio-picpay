@@ -48,6 +48,7 @@ public class AuthorizationService implements UserDetailsService {
         if (!passwordEncoder.matches(authetinticationDto.password(), user.getPassword())) {
             throw new UserCredentialsNotAuthenticatedException();
         }
+
         AuthenticationManager authenticationManager = context.getBean(AuthenticationManager.class);
         var usernamePassword = new UsernamePasswordAuthenticationToken(authetinticationDto.email(), authetinticationDto.password());
         var auth = authenticationManager.authenticate(usernamePassword);
@@ -66,7 +67,13 @@ public class AuthorizationService implements UserDetailsService {
         newUser.setBalance(BigDecimal.valueOf(1000));   //start balance with 1000
 
         this.userRepository.save(newUser);
-        return ResponseEntity.ok().build();
+
+        //login
+        AuthenticationManager authenticationManager = context.getBean(AuthenticationManager.class);
+        var usernamePassword = new UsernamePasswordAuthenticationToken(registerDto.email(), registerDto.password());
+        var auth = authenticationManager.authenticate(usernamePassword);
+        var token = tokenService.generateToken((User) auth.getPrincipal());
+        return ResponseEntity.ok(new LoginResponseDto(token));
     }
 
     @Override
