@@ -1,4 +1,4 @@
-import { getUserData } from "@/app/actions";
+import { getTransfers, getUserData } from "@/app/actions";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 export function useUserData() {
@@ -13,5 +13,10 @@ export function useUserData() {
     queryClient.setQueryData(['userData'], userData)
   }
 
-  return { userDataQuery, setQueryUserData }
+  const transfersQuery = useQuery({
+    queryKey: ['transfers'],
+    queryFn: async () => { return await getTransfers() },
+  })
+
+  return { userDataQuery, setQueryUserData, transfersQuery }
 }

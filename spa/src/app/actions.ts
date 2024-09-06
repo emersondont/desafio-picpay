@@ -3,11 +3,15 @@ import { getAccessToken, setAccessToken } from "@/lib/cookies";
 import { LoginSchema, RegisterSchema } from "@/types";
 import { redirect } from "next/navigation";
 
-const handleErrors = (response: Response) => {
+const handleErrors = async (response: Response) => {
   if (!response.ok) {
+    if (response.status === 403) {
+      console.log("redirecting to login")
+      redirect('/login');
+    }
     return { error: response.json() }
   }
-  
+
   return response.json();
 };
 
@@ -55,8 +59,14 @@ export const registerUser = async (data: RegisterSchema): Promise<{ error: Promi
     },
     body: JSON.stringify(data)
   }
-  
+
   const res = await fetchData(url, options);
+
+  const token = await res.token;
+
+  if (token) {
+    setAccessToken(token);
+  }
 
   if (!res.error) {
     redirect('/');
@@ -65,13 +75,31 @@ export const registerUser = async (data: RegisterSchema): Promise<{ error: Promi
   return res;
 };
 
-export const getUserData = async () => {
+export const getUserData = async (): Promise<UserDataResponseDto | undefined> => {
   const url = 'user';
   const token = getAccessToken();
   if (!token) {
     return;
   }
-  
+
+  const options = {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token.value}`
+    }
+  }
+
+  const response = fetchData(url, options);
+  return response;
+}
+
+export const getTransfers = async (as?: "payer" | "payee", startDate?: Date, endDate?: Date): Promise<TransfersResponseDto | undefined> => {
+  const url = 'transfers';
+  const token = getAccessToken();
+  if (!token) {
+    return;
+  }
+
   const options = {
     method: 'GET',
     headers: {
