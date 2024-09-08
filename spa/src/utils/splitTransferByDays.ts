@@ -5,12 +5,15 @@ interface DayTransfers {
 
 export default function splitTransferByDays(transfers: Transfer[]): DayTransfers[] {
   const days: DayTransfers[] = [];
+  console.log(transfers)
+  if (!transfers) {
+    return days;
+  }
 
   transfers.forEach(transfer => {
     const date = new Date(transfer.timestamp);
 
     const dayIndex = days.findIndex(day => day.day === getDayLabel(date));
-    console.log(dayIndex)
     if (dayIndex === -1) {
       days.push({ day: getDayLabel(date), transfers: [transfer] });
     } else {

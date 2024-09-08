@@ -15,3 +15,12 @@ export const registerSchema = z.object({
 })
 
 export type RegisterSchema = z.infer<typeof registerSchema>
+
+
+export type FilterType = "all" | "period" | "type";
+
+export type FilterLabel = {
+  label: string;
+  value: FilterType;
+  options?: { value: string, label: string }[];
+}

@@ -93,8 +93,25 @@ export const getUserData = async (): Promise<UserDataResponseDto | undefined> =>
   return response;
 }
 
-export const getTransfers = async (as?: "payer" | "payee", startDate?: Date, endDate?: Date): Promise<TransfersResponseDto | undefined> => {
-  const url = 'transfers';
+export const getTransfers = async (type?: "payer" | "payee", startDate?: Date, endDate?: Date): Promise<TransfersResponseDto | undefined> => {
+  var url = 'transfers';
+  if (type) {
+    url += `/${type}`;
+  }
+
+  if(startDate || endDate) {
+    url += '?';
+    if(startDate) {
+      url += 'startDate=' + startDate?.toISOString().substring(0,10);
+    }
+    if(startDate && endDate) {
+      url += '&';
+    }
+    if(endDate) {
+      url += 'endDate=' + endDate?.toISOString().substring(0,10);
+    }
+  }
+
   const token = getAccessToken();
   if (!token) {
     return;

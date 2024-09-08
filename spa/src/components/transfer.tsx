@@ -9,6 +9,7 @@ type TransferProps = {
 export default function Transfer(props: TransferProps) {
   const date = new Date(props.transfer.timestamp)
   const payer = props.transfer.payer.email === props.userEmail
+  
   return (
     <div className="flex items-start gap-3 w-full">
       {
@@ -49,7 +50,7 @@ export default function Transfer(props: TransferProps) {
             <p>DE: {props.transfer.payer.fullName}</p>
         }
 
-        <p>{date.getHours()}:{date.getMinutes()}</p>
+        <p>{date.toLocaleTimeString().substring(0, 5)}</p>
       </div>
     </div>
   )
