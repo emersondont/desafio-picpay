@@ -16,11 +16,23 @@ export const registerSchema = z.object({
 
 export type RegisterSchema = z.infer<typeof registerSchema>
 
+export type TransfersFilter = {
+  type: 'payer' | 'payee' | undefined,
+  startDate: Date | undefined,
+  endDate: Date | undefined,
+}
 
-export type FilterType = "all" | "period" | "type";
+export type FilterType = "all" | "period" | "participant";
+
+export type FilterOption = {
+  label: string;
+  key: string;
+  applyThisFilter: () => void;
+};
 
 export type FilterLabel = {
   label: string;
-  value: FilterType;
-  options?: { value: string, label: string }[];
-}
+  type: FilterType;
+  options?: FilterOption[];
+  applyThisFilter?: () => void;
+};

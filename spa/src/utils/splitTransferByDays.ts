@@ -5,7 +5,6 @@ interface DayTransfers {
 
 export default function splitTransferByDays(transfers: Transfer[]): DayTransfers[] {
   const days: DayTransfers[] = [];
-  console.log(transfers)
   if (!transfers) {
     return days;
   }

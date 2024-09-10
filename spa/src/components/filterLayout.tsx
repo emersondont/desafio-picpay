@@ -1,13 +1,10 @@
-import { FilterType } from "@/types";
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import { FilterLabel, FilterType } from "@/types";
+import { useEffect, useRef, useState } from "react";
 import { IoIosArrowDown, IoIosClose } from "react-icons/io";
 
 type FilterLayoutProps = {
-  children: React.ReactNode
-  value: FilterType;
-  setSelect: Dispatch<SetStateAction<FilterType>>
-  selected?: boolean
-  options?: { value: string, label: string }[];
+  filter: FilterLabel
+  selecteds: { type: FilterType, optionKey: string }[]
 }
 
 export default function FilterLayout(props: FilterLayoutProps) {
@@ -28,29 +25,32 @@ export default function FilterLayout(props: FilterLayoutProps) {
   }
 
   const handleClick = () => {
-    if (props.options) {
+    if (props.filter.options) {
       setOpen(!open);
     }
     else {
-      props.setSelect && props.setSelect(props.value)
+      props.filter.applyThisFilter && props.filter.applyThisFilter()
     }
   }
 
-  const handleOptionClick = (value: string) => {
-    props.setSelect && props.setSelect(props.value)
+  const handleOptionClick = (optionIndex: number) => {
+    props.filter.options && props.filter.options[optionIndex].applyThisFilter()
     setOpen(!open);
   }
+
+  const isFilterSelected = props.selecteds.some(selected => selected.type === props.filter.type);
+  const isOptionSelected = (optionKey: string) => props.selecteds.some(selected => selected.optionKey === optionKey);
 
   return (
     <>
       <button className={`px-3 py-1 rounded-full border cursor-pointer duration-200 ease-out flex gap-1 items-center
-    ${props.selected ? colorsMap["selected"] : colorsMap["unselected"]}
+    ${isFilterSelected ? colorsMap["selected"] : colorsMap["unselected"]}
     `}
         onClick={handleClick}
       >
-        {props.children}
+        {props.filter.label}
         {
-          props.options && (
+          props.filter.options && (
             <IoIosArrowDown size={14} />
           )
         }
@@ -66,14 +66,16 @@ export default function FilterLayout(props: FilterLayoutProps) {
           <IoIosClose size={24} />
         </button>
         {
-          props.options && (
+          props.filter.options && (
             <div className="flex gap-1">
               {
-                props.options.map(option => (
+                props.filter.options.map((option, index) => (
                   <button
-                    onClick={() => handleOptionClick(option.value)}
-                    key={option.value}
-                    className="px-3 py-1 rounded-full border border-transparent bg-bg2 hover:bg-bg3 hover:border-primary cursor-pointer duration-200 ease-out"
+                    onClick={() => handleOptionClick(index)}
+                    key={option.key}
+                    className={`px-3 py-1 rounded-full border cursor-pointer duration-200 ease-out
+                      ${isOptionSelected(option.key) ? colorsMap["selected"] : colorsMap["unselected"]}
+                      `}
                   >
                     {option.label}
                   </button>

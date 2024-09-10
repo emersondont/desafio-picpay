@@ -1,11 +1,7 @@
 import { getTransfers, getUserData } from "@/app/actions";
+import { TransfersFilter } from "@/types";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
-type TransfersFilter = {
-  type: 'payer' | 'payee' | undefined,
-  startDate: Date | undefined,
-  endDate: Date | undefined,
-}
 
 export function useUserData() {
   const queryClient = useQueryClient();
@@ -24,9 +20,9 @@ export function useUserData() {
     queryFn: () => {
 
       const filter: TransfersFilter = {
-        type: "payer",
+        type: undefined,
         startDate: undefined,
-        endDate: new Date(),
+        endDate: undefined,
       }
       return filter
     },
