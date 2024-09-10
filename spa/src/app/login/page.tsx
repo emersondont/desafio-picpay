@@ -19,8 +19,6 @@ export default function Login() {
       const res = await login(data)
       const error = await res.error
       setError("root", { message: error.detail })
-      setError("email", { type: "required" })
-      setError("password", { type: "required" })
     } catch (error) {
       console.log("error:", error)
     }

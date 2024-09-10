@@ -22,8 +22,6 @@ export default function Register() {
       const res = await registerUser(data)
       const error = await res.error
       setError("root", { message: error.detail })
-      setError("email", { type: "required" })
-      setError("password", { type: "required" })
     } catch (error) {
       console.log("error:", error)
     }

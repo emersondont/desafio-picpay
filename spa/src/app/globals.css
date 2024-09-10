@@ -2,8 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-input:-internal-autofill-selected {
-  background-color: transparent !important;
+input:-webkit-autofill {
+  transition: background-color 5000s ease-in-out 0s;
 }
 
 /* h1 {
