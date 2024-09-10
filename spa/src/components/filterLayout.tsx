@@ -57,33 +57,36 @@ export default function FilterLayout(props: FilterLayoutProps) {
       </button>
       <dialog
         ref={ref}
-        className="backdrop:bg-black backdrop:bg-opacity-50 p-3 rounded-lg "
+        className="backdrop:bg-black backdrop:bg-opacity-50 rounded-lg"
+        onClick={() => setOpen(false)}
       >
-        <button
-          onClick={() => setOpen(false)}
-          className="rounded-md bg-transparent border border-transparent hover:bg-bg2 hover:border-tx2 duration-200 ease-out"
-        >
-          <IoIosClose size={24} />
-        </button>
-        {
-          props.filter.options && (
-            <div className="flex gap-1">
-              {
-                props.filter.options.map((option, index) => (
-                  <button
-                    onClick={() => handleOptionClick(index)}
-                    key={option.key}
-                    className={`px-3 py-1 rounded-full border cursor-pointer duration-200 ease-out
+        <div onClick={e => e.stopPropagation()} className="p-3">
+          <button
+            onClick={() => setOpen(false)}
+            className="rounded-md bg-transparent border border-transparent hover:bg-bg2 hover:border-tx2 duration-200 ease-out"
+          >
+            <IoIosClose size={24} />
+          </button>
+          {
+            props.filter.options && (
+              <div className="flex gap-1">
+                {
+                  props.filter.options.map((option, index) => (
+                    <button
+                      onClick={() => handleOptionClick(index)}
+                      key={option.key}
+                      className={`px-3 py-1 rounded-full border cursor-pointer duration-200 ease-out
                       ${isOptionSelected(option.key) ? colorsMap["selected"] : colorsMap["unselected"]}
                       `}
-                  >
-                    {option.label}
-                  </button>
-                ))
-              }
-            </div>
-          )
-        }
+                    >
+                      {option.label}
+                    </button>
+                  ))
+                }
+              </div>
+            )
+          }
+        </div>
       </dialog>
     </>
   )
