@@ -43,7 +43,7 @@ export default function FilterLayout(props: FilterLayoutProps) {
 
   return (
     <>
-      <button className={`px-3 py-1 rounded-full border cursor-pointer duration-200 ease-out flex gap-1 items-center
+      <button className={`px-3 py-1 rounded-full border cursor-pointer duration-200 ease-out flex gap-1 items-center text-nowrap
     ${isFilterSelected ? colorsMap["selected"] : colorsMap["unselected"]}
     `}
         onClick={handleClick}

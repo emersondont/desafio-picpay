@@ -9,10 +9,14 @@ type TransferListProps = {
 export default function TransferList(props: TransferListProps) {
   const { transfersQuery } = useUserData()
 
-  const { data: transfers } = transfersQuery
+  const { data: transfers, isFetching } = transfersQuery
 
   if (!transfers) {
     return <p>Erro ao carregar transferências</p>
+  }
+
+  if (isFetching) {
+    return <p>Carregando...</p>
   }
 
   if (transfers.length === 0) {

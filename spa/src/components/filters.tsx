@@ -115,7 +115,7 @@ export default function Filters(props: FiltersProps) {
   ]
 
   return (
-    <div className="flex gap-3">
+    <div className="flex gap-3 overflow-x-auto">
       {
         filtersLabels.map(filter => (
           <FilterLayout
