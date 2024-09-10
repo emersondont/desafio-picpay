@@ -1,5 +1,5 @@
 "use server"
-import { getAccessToken, setAccessToken } from "@/lib/cookies";
+import { deleteAccessToken, getAccessToken, setAccessToken } from "@/lib/cookies";
 import { LoginSchema, RegisterSchema } from "@/types";
 import { redirect } from "next/navigation";
 
@@ -126,4 +126,9 @@ export const getTransfers = async (type?: "payer" | "payee", startDate?: Date, e
 
   const response = fetchData(url, options);
   return response;
+}
+
+export const logout = async () => {
+  deleteAccessToken();
+  redirect('/login');
 }
