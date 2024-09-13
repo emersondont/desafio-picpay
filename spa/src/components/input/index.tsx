@@ -1,21 +1,25 @@
 'use client'
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { UseFormRegisterReturn, Controller, Control } from "react-hook-form";
-import { LuEye, LuEyeOff } from "react-icons/lu";
+import InputOptions from "./inputOptions";
+import TogglePasswordButton from "./togglePasswordButton";
+import InputMoney from "./inputMoney";
 
 type InputProps = {
   label: string;
   control: Control<any>
   register: UseFormRegisterReturn;
-  type: "text" | "email" | "password" | "radio";
+  type: InputType;
   options?: { value: string, label: string }[];
 }
 
-type InputState = 'default' | 'success' | 'error'
+export type InputType = "text" | "email" | "password" | "radio" | "money"
+
+export type InputState = 'default' | 'success' | 'error'
 
 export default function Input(props: InputProps) {
   const [state, setState] = useState<InputState>('default')
-  const [type, setType] = useState<"text" | "email" | "password" | "radio">(props.type)
+  const [type, setType] = useState<InputType>(props.type)
 
   const bgMap = {
     default: 'bg-bg2',
@@ -40,6 +44,26 @@ export default function Input(props: InputProps) {
     }
   }
 
+  const InputElements: Record<InputType, React.ReactElement | undefined> = {
+    ["radio"]: <InputOptions register={props.register} options={props.options} />,
+    ["money"]: <InputMoney register={props.register} handleBlur={handleBlur} setState={setState} />,
+    ["text"]: undefined,
+    ["email"]: undefined,
+    ["password"]: undefined,
+  }
+
+  const InputElement = (value: any): React.ReactElement => {
+    return InputElements[props.type] ?? (
+      <input
+        className="border-none outline-none bg-transparent peer z-10 w-full caret-primary"
+        {...props.register}
+        type={type}
+        onFocus={() => setState('success')}
+        onBlur={() => handleBlur(value)}
+      />
+    )
+  }
+
   return (
     <Controller
       control={props.control}
@@ -50,28 +74,7 @@ export default function Input(props: InputProps) {
         }, [error]);
         return (
           <div className={`${bgMap[state]} bg-bg2 border-b ${borderMap[state]} px-3 pt-5 pb-1 relative flex rounded-t-md w-full justify-between items-center`}>
-            {
-              props.type === 'radio' ? (
-                <div className="flex gap-2">
-                  {
-                    props.options?.map(option => (
-                      <div key={option.value} className="flex items-center gap-1">
-                        <input type="radio" id={option.value} {...props.register} value={option.value} />
-                        <label htmlFor={option.value}>{option.label}</label>
-                      </div>
-                    ))
-                  }
-                </div>
-
-              ) :
-                <input
-                  className="border-none outline-none bg-transparent peer z-10 w-full caret-primary"
-                  {...props.register}
-                  type={type}
-                  onFocus={() => setState('success')}
-                  onBlur={() => handleBlur(value)}
-                />
-            }
+            <InputElement value={value}/>
 
             <label
               htmlFor="text"
@@ -80,15 +83,7 @@ export default function Input(props: InputProps) {
               {props.label}
             </label>
 
-            {props.type === 'password' && (
-              <button
-                type="button"
-                className="cursor-pointer hover:text-primary duration-200 ease-out"
-                onClick={() => setType(type === 'text' ? 'password' : 'text')}
-              >
-                {type === 'text' ? <LuEye size={18} /> : <LuEyeOff size={18} />}
-              </button>
-            )}
+            {props.type === 'password' && (<TogglePasswordButton type={type} setType={setType} />)}
           </div>
         )
       }}

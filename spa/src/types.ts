@@ -36,3 +36,19 @@ export type FilterLabel = {
   options?: FilterOption[];
   applyThisFilter?: () => void;
 };
+
+export const transferSchema = z.object({
+  payeeDocumentOrEmail: z.string().min(1),
+  value: z.string().transform((value, ctx) => {
+    const formatedValue = parseFloat(value.replace(/\./g, '').replace(',', '.'));
+    if (formatedValue <= 0) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "O valor deve ser maior que zero",
+      })
+    }
+    return formatedValue;
+  })
+})
+
+export type TransferSchema = z.infer<typeof transferSchema>
