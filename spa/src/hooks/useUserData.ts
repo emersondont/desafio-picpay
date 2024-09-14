@@ -9,6 +9,7 @@ export function useUserData() {
   const userDataQuery = useQuery({
     queryKey: ['userData'],
     queryFn: async () => { return await getUserData() },
+    refetchOnMount: false,
   })
 
   const setQueryUserData = (userData: UserDataResponseDto) => {
@@ -37,11 +38,19 @@ export function useUserData() {
       
       return await getTransfers()
     },
+    refetchOnMount: false,
   })
+
+  const unshiftTransfers = (transfer: Transfer) => {
+    const {data: transfers} = transfersQuery
+    const newTransfers = transfers ? [transfer, ...transfers] : [transfer]
+    
+    queryClient.setQueryData(['transfers', filters], newTransfers)
+  }
 
   const setTransfersFilter = (filter: TransfersFilter) => {
     queryClient.setQueryData(['transfersFilter'], filter)
   }
 
-  return { userDataQuery, setQueryUserData, transfersQuery, filters, setTransfersFilter }
+  return { userDataQuery, setQueryUserData, transfersQuery, filters, setTransfersFilter, unshiftTransfers }
 }

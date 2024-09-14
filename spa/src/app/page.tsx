@@ -5,6 +5,7 @@ import TransferList from "@/components/transfersList";
 import UserAvatar from "@/components/userAvatar";
 import { useUserData } from "@/hooks/useUserData";
 import formatedMoney from "@/utils/formatedMoney";
+import Link from "next/link";
 
 export default function Home() {
   const { userDataQuery } = useUserData()
@@ -34,9 +35,11 @@ export default function Home() {
 
         <TransferList userEmail={userData.email} />
 
-        <Button>
-          Nova Transferência
-        </Button>
+        <Link href="/transfer">
+          <Button>
+            Nova Transferência
+          </Button>
+        </Link>
       </div>
     </main>
   );

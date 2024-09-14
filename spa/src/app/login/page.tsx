@@ -10,7 +10,7 @@ import ErrorMessage from "@/components/errorMessage";
 import Link from "next/link";
 
 export default function Login() {
-  const { register, control, handleSubmit, setError, formState: { errors } } = useForm<LoginSchema>({
+  const { register, control, handleSubmit, setError, setFocus, formState: { errors } } = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema)
   })
 
@@ -38,12 +38,14 @@ export default function Login() {
           label="Email"
           type="email"
           register={register("email")}
+          setFocus={() => setFocus("email")}
           control={control}
         />
         <Input
           label="Senha"
           type="password"
           register={register("password")}
+          setFocus={() => setFocus("password")}
           control={control}
         />
         <Button type="submit">

@@ -1,6 +1,6 @@
 "use server"
 import { deleteAccessToken, getAccessToken, setAccessToken } from "@/lib/cookies";
-import { LoginSchema, RegisterSchema } from "@/types";
+import { LoginSchema, RegisterSchema, TransferSchema } from "@/types";
 import { redirect } from "next/navigation";
 
 const handleErrors = async (response: Response) => {
@@ -131,4 +131,25 @@ export const getTransfers = async (type?: "payer" | "payee", startDate?: Date, e
 export const logout = async () => {
   deleteAccessToken();
   redirect('/login');
+}
+
+export const transfer = async (data: TransferSchema): Promise<TransferResponseDto | undefined> => {
+  const url = 'transfer';
+  const token = getAccessToken();
+  if (!token) {
+    return;
+  }
+
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token.value}`
+    },
+    body: JSON.stringify(data)
+  }
+
+  const response = fetchData(url, options);
+
+  return response;
 }
