@@ -8,6 +8,7 @@ import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 import { registerUser } from "../actions";
 import ErrorMessage from "@/components/errorMessage";
 import Link from "next/link";
+import { useState } from "react";
 
 export default function Register() {
   const { register, control, handleSubmit, setError, setFocus, formState: { errors } } = useForm<RegisterSchema>({
@@ -16,14 +17,20 @@ export default function Register() {
       userType: "COMMON"
     }
   })
+  const [loading, setLoading] = useState(false)
 
   const handleRegister: SubmitHandler<RegisterSchema> = async (data) => {
+    setLoading(true)
     try {
       const res = await registerUser(data)
       const error = await res.error
       setError("root", { message: error.detail })
     } catch (error) {
       console.log("error:", error)
+    } finally {
+      setTimeout(() => {
+        setLoading(false);
+      }, 400);
     }
   };
 
@@ -73,7 +80,7 @@ export default function Register() {
           setFocus={() => setFocus("userType")}
           control={control}
         />
-        <Button type="submit">
+        <Button type="submit" loading={loading}>
           Criar conta
         </Button>
       </form>

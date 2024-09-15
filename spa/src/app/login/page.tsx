@@ -8,19 +8,26 @@ import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 import { login } from "../actions";
 import ErrorMessage from "@/components/errorMessage";
 import Link from "next/link";
+import { useState } from "react";
 
 export default function Login() {
   const { register, control, handleSubmit, setError, setFocus, formState: { errors } } = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema)
   })
+  const [loading, setLoading] = useState(false)
 
   const handleLogin: SubmitHandler<LoginSchema> = async (data) => {
+    setLoading(true)
     try {
       const res = await login(data)
       const error = await res.error
       setError("root", { message: error.detail })
     } catch (error) {
       console.log("error:", error)
+    } finally {
+      setTimeout(() => {
+        setLoading(false);
+      }, 400);
     }
   };
 
@@ -48,7 +55,7 @@ export default function Login() {
           setFocus={() => setFocus("password")}
           control={control}
         />
-        <Button type="submit">
+        <Button type="submit" loading={loading}>
           Entrar
         </Button>
       </form>
