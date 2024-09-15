@@ -8,6 +8,8 @@ import { useRouter } from 'next/navigation'
 import Button from "@/components/button"
 import { transfer } from "../actions"
 import { useUserData } from "@/hooks/useUserData"
+import TransferConfirmation from "@/components/transferConfirmation"
+import { useState } from "react"
 
 type TransferProps = {
 
@@ -22,6 +24,7 @@ export default function Transfer(props: TransferProps) {
   })
   const router = useRouter()
   const { userDataQuery, setQueryUserData, unshiftTransfers } = useUserData()
+  const [showConfirmation, setShowConfirmation] = useState(false)
 
   const handleRegister: SubmitHandler<TransferSchema> = async (data) => {
     try {
@@ -29,7 +32,7 @@ export default function Transfer(props: TransferProps) {
       if (res) {
         const { data: userData } = userDataQuery
         if (userData) {
-          setQueryUserData({...userData, balance: res.updatedBalance})
+          setQueryUserData({ ...userData, balance: res.updatedBalance })
         }
         unshiftTransfers({
           id: res.id,
@@ -38,11 +41,15 @@ export default function Transfer(props: TransferProps) {
           payee: res.payee,
           timestamp: res.timestamp
         })
-
+        setShowConfirmation(true)
         reset()
       }
     } catch (error) {
       console.log("error:", error)
+    } finally {
+      setTimeout(() => {
+        setShowConfirmation(false)
+      }, 3000);
     }
   };
 
@@ -88,6 +95,8 @@ export default function Transfer(props: TransferProps) {
         </form>
 
       </div>
+
+      <TransferConfirmation showConfirmation={showConfirmation} setShowConfirmation={setShowConfirmation} />
     </main>
   )
 }
