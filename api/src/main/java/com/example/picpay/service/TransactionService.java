@@ -73,7 +73,7 @@ public class TransactionService {
    }
 
     public List<TransactionResponseDto> getAllTransfers(UserDetails user, LocalDate startDate, LocalDate endDate) {
-       var listTransaction = transactionRepository.findByPayerOrPayeeAndTimestampBetween(
+        var listTransaction = transactionRepository.findTransactionsByPayerOrPayeeAndTimestampBetween(
                user, user,getStartOfDay(startDate), getEndOfDay(endDate)
                );
 
@@ -101,7 +101,7 @@ public class TransactionService {
    }
 
     public List<TransactionResponseDto> getAllTransfersAsPayer(UserDetails user, LocalDate startDate, LocalDate endDate) {
-        var listTransaction = transactionRepository.findByPayerAndTimestampBetween(
+        var listTransaction = transactionRepository.findTransactionsByPayerAndTimestampBetween(
                 user, getStartOfDay(startDate), getEndOfDay(endDate)
         );
 
@@ -127,7 +127,7 @@ public class TransactionService {
     }
 
     public List<TransactionResponseDto> getAllTransfersAsPayee(UserDetails user, LocalDate startDate, LocalDate endDate) {
-        var listTransaction = transactionRepository.findByPayeeAndTimestampBetween(
+        var listTransaction = transactionRepository.findTransactionsByPayeeAndTimestampBetween(
                 user, getStartOfDay(startDate), getEndOfDay(endDate)
         );
 
