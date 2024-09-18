@@ -18,6 +18,6 @@ public class UserService {
             throw new UserNotFoundException(email);
         }
 
-        return new UserDataResponseDto(user.getFullName(), user.getEmail(), user.getBalance());
+        return new UserDataResponseDto(user.getFullName(), user.getEmail(), user.getBalance(), user.getUserType());
     }
 }
