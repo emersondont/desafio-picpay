@@ -35,11 +35,16 @@ export default function Home() {
 
         <TransferList userEmail={userData.email} />
 
-        <Link href="/transfer">
-          <Button>
-            Nova Transferência
-          </Button>
-        </Link>
+        {
+          userData.userType !== 'MERCHANT' && (
+            <Link href="/transfer">
+              <Button>
+                Nova Transferência
+              </Button>
+            </Link>
+          )
+        }
+
       </div>
     </main>
   );

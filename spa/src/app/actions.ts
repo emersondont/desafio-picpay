@@ -1,5 +1,5 @@
 "use server"
-import { deleteAccessToken, getAccessToken, setAccessToken } from "@/lib/cookies";
+import { deleteAccessToken, getAccessToken, setAccessToken, setUserType } from "@/lib/cookies";
 import { LoginSchema, RegisterSchema, TransferSchema } from "@/types";
 import { redirect } from "next/navigation";
 
@@ -89,7 +89,13 @@ export const getUserData = async (): Promise<UserDataResponseDto | undefined> =>
     }
   }
 
-  const response = fetchData(url, options);
+  const response = await fetchData(url, options);
+
+  const userType = await response.userType;
+  if(userType) {
+    setUserType(userType);
+  }
+
   return response;
 }
 

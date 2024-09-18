@@ -1,5 +1,5 @@
 import type { NextRequest } from 'next/server'
-import { getAccessToken } from './cookies'
+import { getAccessToken, getUserType } from './cookies'
 
 const protectedRoutes = ["/"]
 
@@ -11,4 +11,14 @@ export const isAuthenticated = (request: NextRequest) => {
   }
 
   return true
+}
+
+export const isPageRestrictedForUser = (request: NextRequest) => {
+  const userType = getUserType()
+
+  if(request.nextUrl.pathname === "/transfer" && userType?.value === "MERCHANT") { 
+    return true
+  }
+
+  return false
 }

@@ -12,7 +12,8 @@ export default function Filters(props: FiltersProps) {
     type: "all",
     optionKey: "all"
   }])
-  const { filters, setTransfersFilter } = useUserData()
+  const { filters, setTransfersFilter, userDataQuery } = useUserData()
+  const { data: userData } = userDataQuery
 
   const handleApplyFilterAll = () => {
     setTransfersFilter({
@@ -118,11 +119,12 @@ export default function Filters(props: FiltersProps) {
     <div className="flex gap-3 overflow-x-auto">
       {
         filtersLabels.map(filter => (
-          <FilterLayout
-            key={filter.type}
-            filter={filter}
-            selecteds={selecteds}
-          />
+          userData?.userType === 'MERCHANT' && filter.type === 'participant' ? null :
+            <FilterLayout
+              key={filter.type}
+              filter={filter}
+              selecteds={selecteds}
+            />
         ))
       }
     </div>
