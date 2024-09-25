@@ -1,11 +1,10 @@
-import { FieldValues, SubmitHandler, UseFormHandleSubmit } from "react-hook-form";
 
-type AuthLayoutProps<T extends FieldValues> = {
+type AuthLayoutProps = {
   title: string;
   children: React.ReactNode;
 };
 
-export default function AuthLayout<T extends FieldValues>(props: AuthLayoutProps<T>) {
+export default function AuthLayout(props: AuthLayoutProps) {
 
   return (
     <main className="bg-primary h-svh w-full flex justify-center items-center p-6 overflow-hidden">
