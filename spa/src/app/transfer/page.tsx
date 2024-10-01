@@ -10,6 +10,7 @@ import { transfer } from "../actions"
 import { useUserData } from "@/hooks/useUserData"
 import TransferConfirmation from "@/components/transferConfirmation"
 import { useState } from "react"
+import UserAvatar from "@/components/userAvatar"
 
 type TransferProps = {
 
@@ -21,13 +22,14 @@ export default function Transfer(props: TransferProps) {
   })
   const router = useRouter()
   const { userDataQuery, setQueryUserData, unshiftTransfers } = useUserData()
+  const { data: userData, isLoading } = userDataQuery
   const [showConfirmation, setShowConfirmation] = useState(false)
 
   const handleRegister: SubmitHandler<TransferSchema> = async (data) => {
     try {
       const res = await transfer(data)
       if (res) {
-        const { data: userData } = userDataQuery
+        
         if (userData) {
           setQueryUserData({ ...userData, balance: userData.balance - res.value })
         }
@@ -58,8 +60,17 @@ export default function Transfer(props: TransferProps) {
     router.back()
   }
 
+  if (isLoading) {
+    return <p>Carregando...</p>
+  }
+
+  if (!userData) {
+    return <p>Erro ao carregar dados do usuário</p>
+  }
+
   return (
     <main className="text-tx w-full h-svh flex flex-col items-center">
+      <UserAvatar userData={userData} />
       <div className="max-w-sm h-full w-full py-8 px-3 flex flex-col gap-6 overflow-y-auto items-center">
         <div className="flex w-full items-center gap-2">
           <button onClick={handleGoBack} className="rounded-md bg-transparent border border-transparent hover:bg-bg2 hover:border-tx2 duration-200 ease-out">
