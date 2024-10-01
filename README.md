@@ -1,10 +1,12 @@
 # Virtual Bank
 
-Este repositório contém uma implementação aprimorada e com mais funcionalidades do desafio técnico para backend proposto pelo PicPay, disponível no seguinte link: [PicPay - Desafio Backend](https://github.com/PicPay/picpay-desafio-backend).
+Este repositório contém um projeto FullStack com uma implementação aprimorada e com mais funcionalidades do desafio técnico para backend proposto pelo PicPay, disponível no seguinte link: [PicPay - Desafio Backend](https://github.com/PicPay/picpay-desafio-backend).
 
 Você pode conferir minha implementação original para o desafio nessa branch: [desafio-picpay](https://github.com/emersondont/virtual-bank/tree/desafio-picpay)
 
-# Backend
+Veja detalhes do [BackEnd](https://github.com/emersondont/virtual-bank?tab=readme-ov-file#backend) e do [FrontEnd](https://github.com/emersondont/virtual-bank?tab=readme-ov-file#frontend).
+
+# BackEnd
 
 ## Descrição do Projeto
 Este projeto foi desenvolvido como uma solução para o desafio técnico proposto pela PicPay. O objetivo é criar uma aplicação backend que atenda aos requisitos especificados no desafio, utilizando tecnologias modernas e seguindo as melhores práticas de desenvolvimento. 
@@ -171,3 +173,15 @@ GET /transfers/payee?startDate=2024-08-01&endDate=2024-08-25
 ]
 ```
 
+# FrontEnd
+## Tecnologias Utilizadas
+
+O frontend desta aplicação foi desenvolvido utilizando as seguintes tecnologias:
+
+- **Next.js**
+- **TypeScript**
+- **Tailwind CSS**
+- **React Hook Form**
+- **Zod**
+- **TanStack Query**
+- **React Stomp Hooks**
