@@ -6,10 +6,10 @@ import com.example.picpay.exception.PicPayException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AuthorizationService {
+public class AuthorizationClientService {
     private final AuthorizationClient authorizationClient;
 
-    public AuthorizationService(AuthorizationClient authorizationClient) {
+    public AuthorizationClientService(AuthorizationClient authorizationClient) {
         this.authorizationClient = authorizationClient;
     }
 

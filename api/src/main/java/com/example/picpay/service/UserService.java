@@ -1,25 +1,23 @@
 package com.example.picpay.service;
 
-import com.example.picpay.dto.CreateUserDto;
-import com.example.picpay.entity.User;
-import com.example.picpay.exception.UserDataAlreadyExistsException;
+import com.example.picpay.dto.UserDataResponseDto;
+import com.example.picpay.exception.UserNotFoundException;
 import com.example.picpay.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
-    private final UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
-    public User createUser(CreateUserDto createUserDto) {
-        var userDb = userRepository.findByDocumentOrEmail(createUserDto.document(), createUserDto.email());
-        if(userDb.isPresent()) {
-            throw new UserDataAlreadyExistsException("Document or Email already exists");
+    public UserDataResponseDto getUserData(String email) {
+        var user = userRepository.findByEmail(email);
+        if(user == null) {
+            throw new UserNotFoundException(email);
         }
 
-        return userRepository.save(createUserDto.toUser());
+        return new UserDataResponseDto(user.getFullName(), user.getEmail(), user.getBalance(), user.getUserType());
     }
 }
