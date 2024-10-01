@@ -29,7 +29,7 @@ export default function Transfer(props: TransferProps) {
       if (res) {
         const { data: userData } = userDataQuery
         if (userData) {
-          setQueryUserData({ ...userData, balance: res.updatedBalance })
+          setQueryUserData({ ...userData, balance: userData.balance - res.value })
         }
         unshiftTransfers({
           id: res.id,

@@ -15,11 +15,11 @@ public class NotificationService {
         this.messagingTemplate = messagingTemplate;
     }
 
-    public void sendTransactionNotification(String payeeEmail, String payerName, BigDecimal value) {
+    public void sendTransactionNotification(String payeeEmail, Object message) {
         messagingTemplate.convertAndSendToUser(
                 payeeEmail,
                 "/topic/notifications",
-                "Você recebeu uma transferência de R$ " + value + " de " + payerName
+                message
                 );
     }
 }

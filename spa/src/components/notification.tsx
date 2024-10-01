@@ -1,22 +1,18 @@
 import { useUserData } from "@/hooks/useUserData"
+import formatedMoney from "@/utils/formatedMoney";
 import { useEffect, useState } from "react";
 import { useSubscription } from "react-stomp-hooks";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-type notificationsProps = {
+export default function Notification() {
+  const { userDataQuery, transfersQuery, setQueryUserData, unshiftTransfers } = useUserData()
+  const { data: userData } = userDataQuery
+  const [lastNotification, setLastNotification] = useState<TransferResponseDto | undefined>(undefined);
 
-}
+  useSubscription(`/user/${userData?.email}/topic/notifications`, (message) => setLastNotification(JSON.parse(message.body)));
 
-export default function Notification(props: notificationsProps) {
-  const { userDataQuery, transfersQuery } = useUserData()
-  const { data: userData, refetch: refetchData } = userDataQuery
-  const { refetch: refetchTransfers } = transfersQuery
-  const [lastMessage, setLastMessage] = useState("");
-
-  useSubscription(`/user/${userData?.email}/topic/notifications`, (message) => setLastMessage(message.body));
-
-  const notify = () => toast.success(`${lastMessage}`, {
+  const notify = (message: string) => toast.success(`${message}`, {
     position: "top-center",
     autoClose: 3000,
     hideProgressBar: false,
@@ -25,18 +21,23 @@ export default function Notification(props: notificationsProps) {
   });
 
   useEffect(() => {
-    if (lastMessage) {
-      setTimeout(() => {
-        notify()
-      }, 1000);
+    if (lastNotification) {
+      notify("Você recebeu uma transferência de " + formatedMoney(lastNotification.value) + " de " + lastNotification.payer.fullName)
 
-      //por enquanto deixar assim
       setTimeout(() => {
-        refetchTransfers();
-        refetchData();
+        if (userData) {
+          setQueryUserData({ ...userData, balance: userData.balance + lastNotification.value })
+        }
+        unshiftTransfers({
+          id: lastNotification.id,
+          value: lastNotification.value,
+          payer: lastNotification.payer,
+          payee: lastNotification.payee,
+          timestamp: lastNotification.timestamp
+        })
       }, 1000);
     }
-  }, [lastMessage])
+  }, [lastNotification])
 
   return (
     <ToastContainer />

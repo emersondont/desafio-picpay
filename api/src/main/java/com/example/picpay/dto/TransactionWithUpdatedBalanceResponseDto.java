@@ -7,6 +7,5 @@ public record TransactionWithUpdatedBalanceResponseDto(Long id,
                                                        BigDecimal value,
                                                        UserResponseDto payer,
                                                        UserResponseDto payee,
-                                                       LocalDateTime timestamp,
-                                                       BigDecimal updatedBalance) {
+                                                       LocalDateTime timestamp) {
 }

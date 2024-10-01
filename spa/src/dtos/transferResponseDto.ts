@@ -9,5 +9,4 @@ interface TransferResponseDto {
   payer: User;
   payee: User;
   timestamp: string;
-  updatedBalance: number;
 }

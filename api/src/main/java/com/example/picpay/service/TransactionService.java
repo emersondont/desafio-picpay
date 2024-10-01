@@ -71,16 +71,13 @@ public class TransactionService {
                 transactionResult.getValue(),
                 payerDto,
                 payeeDto,
-                transactionResult.getTimestamp(),
-                payer.getBalance()
+                transactionResult.getTimestamp()
         );
 
         notificationService.sendTransactionNotification(
                 payee.getEmail(),
-                payer.getFullName(),
-                transactionDto.value()
+                transactionResponse
         );
-
 
         return transactionResponse;
    }
