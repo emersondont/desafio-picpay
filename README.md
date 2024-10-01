@@ -174,6 +174,8 @@ GET /transfers/payee?startDate=2024-08-01&endDate=2024-08-25
 ```
 
 # FrontEnd
+Você pode acessar o design da aplicação no Figma clicando [aqui](https://www.figma.com/design/egjkKEm93Nsua0DI3AjW22/Virtual-Bank?node-id=0-1&t=sZYxbCv2gCa3Vmsy-1).
+
 ## Tecnologias Utilizadas
 
 O frontend desta aplicação foi desenvolvido utilizando as seguintes tecnologias:
