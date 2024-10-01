@@ -1,9 +1,17 @@
-# Desafio PicPay - Backend
+# Virtual Bank
 
-Este repositório contém a implementação do desafio técnico para backend proposto pelo PicPay, disponível no seguinte link: [PicPay - Desafio Backend](https://github.com/PicPay/picpay-desafio-backend).
+Este repositório contém uma implementação aprimorada e com mais funcionalidades do desafio técnico para backend proposto pelo PicPay, disponível no seguinte link: [PicPay - Desafio Backend](https://github.com/PicPay/picpay-desafio-backend).
+
+Você pode conferir minha implementação original para o desafio nessa branch: [desafio-picpay](https://github.com/emersondont/virtual-bank/tree/desafio-picpay)
+
+# Backend
 
 ## Descrição do Projeto
-Este projeto foi desenvolvido como uma solução para o desafio técnico proposto pela PicPay. O objetivo é criar uma aplicação backend que atenda aos requisitos especificados no desafio, utilizando tecnologias modernas e seguindo as melhores práticas de desenvolvimento.
+Este projeto foi desenvolvido como uma solução para o desafio técnico proposto pela PicPay. O objetivo é criar uma aplicação backend que atenda aos requisitos especificados no desafio, utilizando tecnologias modernas e seguindo as melhores práticas de desenvolvimento. 
+> [!NOTE]
+> Além dos requisitos especificados no desafio, foram adicionadas funcionalidades como:
+- Sistema de Login/Register
+- Sistema de notificação utilizando WebSockets
 
 ## Tecnologias Utilizadas
 
@@ -18,6 +26,8 @@ O backend desta aplicação foi desenvolvido utilizando as seguintes tecnologias
 - **ControllerAdvice & Problem Details**
 - **Hibernate Validator**
 - **Spring Security**
+- **Lombok**
+- **WebSocket**
 
 ## Endpoints da API
 
@@ -35,6 +45,13 @@ POST /register
 ```
 - "document" : CPF ou CNPJ
 - "userType" : "COMMON" ou "MERCHANT"
+#### Retorno:
+```http
+{
+  "token": ""
+}
+```
+
 ### 2. Login
 #### Requisição
 ```http
@@ -47,14 +64,30 @@ POST /login
 #### Retorno:
 ```http
 {
-  "token": "",
-  "fullName": "Nome completo",
-  "email": "email@email.com",
-  "balance": 1000.00
+  "token": ""
 }
 ```
 
-### 3.Transação
+### 3.Get User Data
+#### Cabeçalho
+```http
+Authorization: Bearer <token>
+```
+#### Requisição
+```http
+GET /user
+```
+#### Retorno:
+```http
+{
+  "fullName": "Nome completo",
+  "email": "email@email.com",
+  "balance": 1000
+  "userType": "COMMON"
+}
+```
+
+### 4.Transação
 #### Cabeçalho
 ```http
 Authorization: Bearer <token>
@@ -81,11 +114,10 @@ POST /transfer
     "email": "email@email.com"
   },
   "timestamp": "2024-08-26T16:39:25.250033382"
-  "updatedBalance": 900.00
 }
 ```
 
-### 4.Transações
+### 5.Transações
 #### Cabeçalho
 ```http
 Authorization: Bearer <token>
