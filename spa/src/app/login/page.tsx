@@ -45,14 +45,12 @@ export default function Login() {
           label="Email"
           type="email"
           register={register("email")}
-          setFocus={() => setFocus("email")}
           control={control}
         />
         <Input
           label="Senha"
           type="password"
           register={register("password")}
-          setFocus={() => setFocus("password")}
           control={control}
         />
         <Button type="submit" loading={loading}>
@@ -64,7 +62,7 @@ export default function Login() {
           Registre-se
         </Link>
       </p>
-    </AuthLayout>
+    </AuthLayout> 
   );
 }
 

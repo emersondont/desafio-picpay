@@ -48,28 +48,24 @@ export default function Register() {
           label="Nome completo"
           type="text"
           register={register("fullName")}
-          setFocus={() => setFocus("fullName")}
           control={control}
         />
         <Input
           label="CPF/CNPJ"
           type="text"
           register={register("document")}
-          setFocus={() => setFocus("document")}
           control={control}
         />
         <Input
           label="Email"
           type="email"
           register={register("email")}
-          setFocus={() => setFocus("email")}
           control={control}
         />
         <Input
           label="Senha"
           type="password"
           register={register("password")}
-          setFocus={() => setFocus("password")}
           control={control}
         />
         <Input
@@ -77,7 +73,6 @@ export default function Register() {
           type="radio"
           options={[{ value: "COMMON", label: "Comum" }, { value: "MERCHANT", label: "Lojista" }]}
           register={register("userType")}
-          setFocus={() => setFocus("userType")}
           control={control}
         />
         <Button type="submit" loading={loading}>

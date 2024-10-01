@@ -11,7 +11,6 @@ type InputProps = {
   register: UseFormRegisterReturn;
   type: InputType;
   options?: { value: string, label: string }[];
-  setFocus: () => void;
 }
 
 export type InputType = "text" | "email" | "password" | "radio" | "money"

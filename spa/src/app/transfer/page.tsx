@@ -76,7 +76,6 @@ export default function Transfer(props: TransferProps) {
             label="CPF/CNPJ ou E-mail"
             type="text"
             register={register("payeeDocumentOrEmail")}
-            setFocus={() => setFocus("payeeDocumentOrEmail")}
             control={control}
           />
           <h2 className="font-bold text-xl w-full mt-1">Quanto você quer pagar?</h2>
@@ -84,7 +83,6 @@ export default function Transfer(props: TransferProps) {
             label="Valor"
             type="money"
             register={register("value")}
-            setFocus={() => setFocus("value")}
             control={control}
           />
 
