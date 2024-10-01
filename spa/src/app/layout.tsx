@@ -16,7 +16,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-br">
-      <body className={nunito.className}>{children}</body>
+      <body className={nunito.className}>
+        {children}
+      </body>
     </html>
   );
 }

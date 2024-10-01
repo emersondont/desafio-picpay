@@ -9,8 +9,8 @@ import Link from "next/link";
 
 export default function Home() {
   const { userDataQuery } = useUserData()
-
   const { data: userData, isLoading } = userDataQuery
+
 
   if (isLoading) {
     return <p>Carregando...</p>
@@ -19,7 +19,6 @@ export default function Home() {
   if (!userData) {
     return <p>Erro ao carregar dados do usuário</p>
   }
-
 
   return (
     <main className="text-tx w-full h-svh flex flex-col items-center">

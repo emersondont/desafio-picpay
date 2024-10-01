@@ -9,6 +9,8 @@ import com.example.picpay.entity.User;
 import com.example.picpay.exception.*;
 import com.example.picpay.repository.TransactionRepository;
 import com.example.picpay.repository.UserRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,10 +25,12 @@ import java.util.stream.Collectors;
 public class TransactionService {
     private final TransactionRepository transactionRepository;
     private final UserRepository userRepository;
+    private final NotificationService notificationService;
 
-    public TransactionService(TransactionRepository transactionRepository, UserRepository userRepository) {
+    public TransactionService(TransactionRepository transactionRepository, UserRepository userRepository, NotificationService notificationService) {
         this.transactionRepository = transactionRepository;
         this.userRepository = userRepository;
+        this.notificationService = notificationService;
     }
 
     @Transactional
@@ -63,13 +67,22 @@ public class TransactionService {
                 payee.getEmail()
         );
 
-        return new TransactionWithUpdatedBalanceResponseDto(transactionResult.getId(),
+        var transactionResponse = new TransactionWithUpdatedBalanceResponseDto(transactionResult.getId(),
                 transactionResult.getValue(),
                 payerDto,
                 payeeDto,
                 transactionResult.getTimestamp(),
                 payer.getBalance()
         );
+
+        notificationService.sendTransactionNotification(
+                payee.getEmail(),
+                payer.getFullName(),
+                transactionDto.value()
+        );
+
+
+        return transactionResponse;
    }
 
     public List<TransactionResponseDto> getAllTransfers(UserDetails user, LocalDate startDate, LocalDate endDate) {
