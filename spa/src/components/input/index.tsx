@@ -16,10 +16,7 @@ type InputProps = {
 
 export type InputType = "text" | "email" | "password" | "radio" | "money"
 
-export type InputState = 'default' | 'success' | 'error'
-
 export default function Input(props: InputProps) {
-  const [state, setState] = useState<InputState>('default')
   const [type, setType] = useState<InputType>(props.type)
 
   const bgMap = {
@@ -39,33 +36,20 @@ export default function Input(props: InputProps) {
     inputFilled: 'text-sm font-bold top-0 translate-y-0'
   }
 
-  const handleBlur = (value: string | number, event: React.FocusEvent<HTMLInputElement, Element>) => {
-    props.register.onBlur(event);
-    if (value === '' || value === undefined || value === "0" || value === "0,00") {
-      setState('default')
-    }
-  }
-
-  const handleFocus = () => {
-    setState('success')
-  }
-
   const InputElements: Record<InputType, React.ReactElement | undefined> = {
     ["radio"]: <InputOptions register={props.register} options={props.options} />,
-    ["money"]: <InputMoney register={props.register} handleBlur={handleBlur} handleFocus={handleFocus} setState={setState} />,
+    ["money"]: <InputMoney register={props.register} />,
     ["text"]: undefined,
     ["email"]: undefined,
     ["password"]: undefined,
   }
 
-  const InputElement = (value: any): React.ReactElement => {
+  const InputElement = (): React.ReactElement => {
     return InputElements[props.type] ?? (
       <input
         {...props.register}
-        className="border-none outline-none bg-transparent peer z-10 w-full caret-primary"
         type={type}
-        onFocus={handleFocus}
-        onBlur={(event) => { handleBlur(value, event); }}
+        className="peer border-none outline-none bg-transparent z-10 w-full caret-primary"
       />
     )
   }
@@ -74,18 +58,14 @@ export default function Input(props: InputProps) {
     <Controller
       control={props.control}
       name={props.register.name}
-      render={({ field: { value }, fieldState: { error } }) => {
-
-        useEffect(() => {
-          if (error) { setState('error'); }
-          if (state === "success") props.setFocus();
-        }, [error, state]);
-
+      render={({ field: { value }, fieldState: { invalid, isTouched } }) => {
+        const inputState = props.type != "money" ? isTouched ? (invalid ? 'error' : 'success') : 'default' : 'success'
+        const labelState = props.type != "money" ? value  ? 'inputFilled' : 'inputEmpty' : 'inputFilled'
+        
         return (
-          <div className={`${bgMap[state]} bg-bg2 border-b ${borderMap[state]} px-3 pt-5 pb-1 relative flex rounded-t-md w-full justify-between items-center`}>
-            <InputElement value={value} />
-
-            <label htmlFor="text" className={`absolute ${value === '' || value === undefined ? labelMap['inputEmpty'] : labelMap['inputFilled']}  transition-all duration-200 ease-out`}>
+          <div className={`${bgMap[inputState]} ${borderMap[inputState]} focus-within:bg-bg3 focus-within:border-primary border-b px-3 pt-5 pb-1 relative flex rounded-t-md w-full justify-between items-center`}>
+            <InputElement />
+            <label htmlFor="text" className={`absolute  transition-all duration-200 ease-out ${labelMap[labelState]}`}>
               {props.label}
             </label>
 

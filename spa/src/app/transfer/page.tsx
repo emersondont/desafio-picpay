@@ -17,10 +17,7 @@ type TransferProps = {
 
 export default function Transfer(props: TransferProps) {
   const { register, control, reset, handleSubmit, setError, setFocus, formState: { errors } } = useForm<TransferSchema>({
-    resolver: zodResolver(transferSchema),
-    defaultValues: {
-      value: 0.00
-    }
+    resolver: zodResolver(transferSchema)
   })
   const router = useRouter()
   const { userDataQuery, setQueryUserData, unshiftTransfers } = useUserData()
