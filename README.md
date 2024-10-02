@@ -2,12 +2,12 @@
 
 Este repositório contém um projeto FullStack com uma implementação aprimorada e com mais funcionalidades do desafio técnico para backend proposto pelo PicPay, disponível no seguinte link: [PicPay - Desafio Backend](https://github.com/PicPay/picpay-desafio-backend).
 
-## Vídeo de demonstração da plataforma:
-https://github.com/user-attachments/assets/c70b3a20-a5ee-4a1f-a45c-63ee7f6da66e
-
 Você pode conferir minha implementação original para o desafio nessa branch: [desafio-picpay](https://github.com/emersondont/virtual-bank/tree/desafio-picpay)
 
 Veja detalhes do [BackEnd](https://github.com/emersondont/virtual-bank?tab=readme-ov-file#backend) e do [FrontEnd](https://github.com/emersondont/virtual-bank?tab=readme-ov-file#frontend).
+
+## Vídeo de demonstração da plataforma:
+https://github.com/user-attachments/assets/c70b3a20-a5ee-4a1f-a45c-63ee7f6da66e
 
 # BackEnd
 
